@@ -1,4 +1,4 @@
 const storeDB = require('../../../storeDB/dummy');
-const userController = require('./userController');
+const userController = require('./authController');
 
 module.exports = userController(storeDB);//Permite inyectar la DB dentro del controlador.

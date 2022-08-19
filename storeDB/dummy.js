@@ -5,7 +5,7 @@ const db = {
 }
 
 const list = async (table) => {
-  return db[table];
+  return db[table] || [];
 }
 const get = async (table, id) => {
   let collection = await list(table);
@@ -13,8 +13,19 @@ const get = async (table, id) => {
   
 }
 const upsert = async (table, data) => {
-  await db[collection].push(data);
+  if(!db[table]){
+    db[table] = [];
+  }
+  await db[table].push(data);
 }
+
+const query = async (table, consult) => {
+  let collection = await list(table);
+  let keys = Object.keys(consult);
+  let key = keys[0];
+  return collection.filter(item => item[key] === consult[key])[0] || null;
+}
+
 const remove = async (table, id) => {
   return await true;
 }
@@ -23,5 +34,6 @@ module.exports = {
     list,
     get,
     upsert,
-    remove
+    remove,
+    query
 }

@@ -1,4 +1,5 @@
-const uuidv4 = require('uuid');
+const { v4: uuidv4 } = require('uuid');
+const auth = require('../auth');
 
 const TABLE = 'users';
 
@@ -17,12 +18,25 @@ module.exports = (injectedStore) => {
         return store.get(TABLE, parseInt(id));//parseInt(id) para que el id sea un entero
     }
     
-    const upsert = (data) => {
-        const user = { name: data.name};
+    const upsert = async (data) => {
+        const user = { 
+            name: data.name,
+            username: data.username,
+            password: data.password,
+        }
+
         if (data.id) {
             user.id = parseInt(data.id);
         } else {
             user.id = uuidv4();
+        }
+
+        if (data.password || data.username) {
+            await auth.upsert({
+                id: user.id,
+                username: user.username,
+                password: user.password
+            })
         }
         return store.upsert(TABLE, data);
     }
