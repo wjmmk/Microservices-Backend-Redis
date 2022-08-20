@@ -12,16 +12,7 @@ router.post('/login', (req, res) => {
     } catch (error) {
         response.error(req, res, error.message, 403, 'Error al loguearse')
     }
-})
-
-router.get('/:id', (req, res) => {
-   try {
-      Controller.get(req.params.id)
-      .then((resultUser) => response.success(req, res, resultUser, 200))
-   } catch (error) {
-      response.error(req, res, error.message, 500, 'Error inesperado')
-   }   
-})
+});
 
 
 module.exports = router;

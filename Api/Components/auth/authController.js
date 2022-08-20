@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+const auth = require('../../../authToken');
 
 const TABLE = 'auth';
 
@@ -10,11 +12,16 @@ module.exports = (injectedStore) => {
 
     const login = async (username, password) => {
         const data = await store.query(TABLE, { username, password });
-        if (data.password === password) {
-            return 'token';
-        } else {
-            throw new Error('Usuario o contraseña incorrectos');
-        }
+
+        return bcrypt.compare(password, data.password)
+            .then(iqualKey => {
+                if (iqualKey === true) {
+                    return auth.sign(data);// Se crea el token
+                } else {
+                    throw new Error('Usuario o contraseña incorrectos');
+                }
+            })
+
     }
 
     const register = async (email, password) => {
@@ -27,7 +34,7 @@ module.exports = (injectedStore) => {
     }
     
     
-    const upsert = (data) => {
+    const upsert = async (data) => {
         const authData = { name: data.id};
 
         if (data.username) {
@@ -35,10 +42,10 @@ module.exports = (injectedStore) => {
         } 
 
         if (data.password) {
-            authData.password = data.password;
+            authData.password = await bcrypt.hashSync(data.password, 10);
         }
 
-        return store.upsert(TABLE, data);
+        return store.upsert(TABLE, authData);
     }
     
     return { upsert, login, register };

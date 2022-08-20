@@ -12,11 +12,12 @@ const get = async (table, id) => {
   return collection.filter(item => item.id === id)[0] || null;
   
 }
-const upsert = async (table, data) => {
+const upsert = (table, data) => {
   if(!db[table]){
     db[table] = [];
   }
-  await db[table].push(data);
+  db[table].push(data);
+  console.log(db);
 }
 
 const query = async (table, consult) => {
