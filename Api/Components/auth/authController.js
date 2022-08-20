@@ -35,7 +35,7 @@ module.exports = (injectedStore) => {
     
     
     const upsert = async (data) => {
-        const authData = { name: data.id};
+        const authData = { id: parseInt(data.id)};
 
         if (data.username) {
             authData.username = data.username;

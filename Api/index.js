@@ -1,7 +1,9 @@
+require('dotenv').config()
 const express =  require('express');
-const config = require('../config');
+const { api } = require('../config.js');
+const user = require('./Components/User/userNetwork');
 const auth = require('./Components/auth/authNetwork');
-const user = require('./components/user/userNetwork');
+const errors = require('../Network/Errors');
 
 const app = express();
 
@@ -12,8 +14,11 @@ app.use(express.json());
 app.use('/api/users', user);
 app.use('/api/auth', auth);
 
-app.listen(config.port, () => {
-    console.log(`Server running on port ${config.port}`);
+
+// Error Handler
+app.use(errors);
+app.listen(api.port, () => {
+    console.log(`Server running on port ${api.port}`);
 });
 
 module.exports = app;

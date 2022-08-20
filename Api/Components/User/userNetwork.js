@@ -1,4 +1,5 @@
 const express = require('express');
+const secure = require('./secure')
 const response = require('../../../Network/response');
 const Controller = require('./index');
 
@@ -6,49 +7,43 @@ const Controller = require('./index');
 const router = express.Router();
 
 
-router.get('/', (req, res) => {
-    try {
-      Controller.list()
-         .then((resultUsers) => response.success(req, res, resultUsers, 200))
-    } catch (error) {
-        response.error(req, res, error.message, 500, 'Error inesperado')
-    }
-})
+// Routes
+router.get('/', list)
+router.get('/:id', get);
+router.post('/', upsert);
+router.put('/', secure('update'), upsert);
 
-router.get('/:id', (req, res) => {
-   try {
-      Controller.get(req.params.id)
-      .then((resultUser) => response.success(req, res, resultUser, 200))
-   } catch (error) {
-      response.error(req, res, error.message, 500, 'Error inesperado')
-   }   
-})
+// Internal functions
+function list(req, res) {
+    Controller.list()
+        .then((lista) => {
+            response.success(req, res, lista, 200);
+        })
+        // Puedes gestionar los Errores en cada ruta como en este ejemplo Ó.
+        .catch((err) => {
+            response.error(req, res, err.message, 500);
+        });
+    
+}
 
-router.post('/', (req, res) => {
-    try {
-         Controller.upsert(req.body)
-            .then((resultUser) => response.success(req, res, resultUser, 201))
-    } catch (error) {
-        response.error(req, res, error.message, 500, 'Error inesperado')
-    }
-})
+function get(req, res, next) {
+    Controller.get(req.params.id)
+        .then((user) => {
+            response.success(req, res, user, 200);
+        })
+        // Utilizar el método (next) que traen los Middlewares para gestionar los Errores.
+        .catch(next);
+    
+}
 
-router.put('/:id', (req, res) => {
-    try {
-        Controller.upsert(req.body)
-            .then((resultUser) => response.success(req, res, resultUser, 200))
-    } catch (error) {
-        response.error(req, res, error.message, 500, 'Error inesperado')
-    }
-})
-
-router.delete('/:id', (req, res) => {
-    try {
-        Controller.remove(req.params.id)
-            .then((resultUser) => response.success(req, res, resultUser, 200))
-    } catch (error) {
-        response.error(req, res, error.message, 500, 'Error inesperado')
-    }
-})
+function upsert(req, res, next) {
+    Controller.upsert(req.body)
+        .then((user) => {
+            response.success(req, res, user, 201);
+        })
+        // Utilizar el método (next) que traen los Middlewares para gestionar los Errores.
+        .catch(next);
+    
+}
 
 module.exports = router;
