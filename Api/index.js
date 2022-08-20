@@ -3,6 +3,7 @@ const express =  require('express');
 const { api } = require('../config.js');
 const user = require('./Components/User/userNetwork');
 const auth = require('./Components/auth/authNetwork');
+const post = require('./Components/Post/postNetwork');
 const errors = require('../Network/Errors');
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 // Rutas
 app.use('/api/users', user);
 app.use('/api/auth', auth);
+app.use('/api/post', post);
 
 
 // Error Handler
