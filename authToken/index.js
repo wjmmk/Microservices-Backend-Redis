@@ -20,6 +20,12 @@ const check = {
        if (decoded.id !== owner) {
         throw error('You do not have permission to do this', 403);
        }
+    },
+    logged: (req) => {
+        const decoded = decodeHeader(req);
+        /* if (!decoded) {
+            throw error('Invalid token', 401);
+        } */
     }
 }
 

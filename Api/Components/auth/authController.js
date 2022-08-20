@@ -7,16 +7,16 @@ module.exports = (injectedStore) => {
 
     let store = injectedStore;
     if (!store) {
-        store = require('../../../storeDB/dummy.js');
+        store = require('../../../storeDB/mysql.js');
     }
 
     const login = async (username, password) => {
-        const data = await store.query(TABLE, { username, password });
+        const data = await store.query(TABLE, { username});
 
         return bcrypt.compare(password, data.password)
             .then(iqualKey => {
                 if (iqualKey === true) {
-                    return auth.sign(data);// Se crea el token
+                    return auth.sign({...data});// Se crea el token
                 } else {
                     throw new Error('Usuario o contraseña incorrectos');
                 }
@@ -35,7 +35,7 @@ module.exports = (injectedStore) => {
     
     
     const upsert = async (data) => {
-        const authData = { id: parseInt(data.id)};
+        const authData = { id: data.id};
 
         if (data.username) {
             authData.username = data.username;
