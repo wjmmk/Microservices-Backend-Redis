@@ -13,8 +13,8 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/users', user);
-app.use('/api/auth', auth);
-app.use('/api/post', post);
+app.use('/api/auths', auth);
+app.use('/api/posts', post);
 
 
 // Error Handler

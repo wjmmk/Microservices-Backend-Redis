@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon Api/index.js"
+    "start": "nodemon Api/index.js",
+    "mysql": "nodemon mysql/index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.19",
+    "request": "^2.88.0",
     "uuid": "^8.3.2"
   }
 }

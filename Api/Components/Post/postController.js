@@ -1,4 +1,4 @@
-const TABLE = 'post';
+const TABLE = 'posts';
 
 module.exports = (injectedStore) => {
 

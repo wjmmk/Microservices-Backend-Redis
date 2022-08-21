@@ -3,7 +3,6 @@ const config = require('../config');
 
 const dbConfig = {
     host: config.mysql.host,
-    port: config.mysql.port,
     user: config.mysql.user,
     password: config.mysql.password,
     database: config.mysql.database,
