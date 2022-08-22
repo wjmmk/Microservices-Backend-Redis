@@ -2,6 +2,10 @@ const api = {
     port: process.env.PORT || 3000
 }
 
+const post = {
+    port: process.env.POST_PORT || 3002,
+}
+
 const jwt = {
     secret: process.env.JWT_SECRET_KEY || 'notasecret!'
 }
@@ -22,4 +26,4 @@ const mysqlService = {
     database: process.env.MYSQL_DB || 'test' */
 }
 
-module.exports = { api, jwt, mysql, mysqlService };
+module.exports = { api, jwt, mysql, post, mysqlService };

@@ -12,5 +12,5 @@ app.use(express.json());
 app.use('/api', router);
 
 app.listen(mysqlService.port, () => {
-    console.log(`Server running on port ${mysqlService.port}`);
+    console.log(`Server DBMySql: running on port ${mysqlService.port}`);
 });

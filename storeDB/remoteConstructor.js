@@ -45,24 +45,35 @@ function createRemoteDB(host, port) {
             request({
                 method,
                 headers: {
-                    'content-type': 'application/json'
+                    'Content-Type': 'application/json; charset=utf-8'
                 },
                 url,
-                body,
+                body
             }, (err, req, body) => {
-                if (err) {
-                    console.error('Error con la base de datos remota', err);
-                    return reject(err.message);
+                try {
+                    if (err) {
+                        console.error('Error with remote database', err);
+                        return reject(err.message);
+                    }
+                    
+                    const resp = JSON.parse(body);
+                    return resolve(resp.body);
+                } catch (error) {
+                    console.error('Error with remote database', error);
+                    return reject(error.message);
+   
                 }
-
-                const resp = JSON.parse(body);
-                return resolve(resp.body);
             })
         })
     }
 
     return {
         list,
+        get,
+        insert,
+        update,
+        upsert,
+        query
     }
 }
 
