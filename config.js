@@ -20,10 +20,21 @@ const mysql = {
 const mysqlService = {
     port: process.env.MYSQL_SRV_PORT || 3001,
     host: process.env.MYSQL_SRV_HOST || 'localhost',
-    /*port: process.env.MYSQL_PORT || 3306,
-    user: process.env.MYSQL_USER || 'root',
-    password: process.env.MYSQL_PASSWORD || '9783238',
-    database: process.env.MYSQL_DB || 'test' */
 }
 
-module.exports = { api, jwt, mysql, post, mysqlService };
+const cacheService = {
+    port: process.env.CACHE_SRV_PORT || 3003,
+    host: process.env.CACHE_SRV_HOST || 'localhost',
+
+}
+
+const redis = {
+    host: process.env.REDIS_HOST || 'xxxxxxxxxxxxxxxxxxxxxxxx',
+    port: process.env.REDIS_PORT || 'xxxx',
+    password: process.env.REDIS_PASS || 'xxxxxxx',
+    database: process.env.REDIS_DB || 'xxxxx'
+}
+
+const remoteDB = process.env.REMOTE_DB || false;
+
+module.exports = { api, jwt, mysql, post, redis, mysqlService, cacheService, remoteDB };
